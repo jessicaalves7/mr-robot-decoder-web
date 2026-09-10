@@ -22,16 +22,10 @@ jobs:
       - name: 🧹 Limpar pasta ios antiga
         run: rm -rf ios
 
-      - name: 🍎 Criar plataforma iOS
-        run: node node_modules/@capacitor/cli/bin/capacitor add ios
-
-      - name: 🔄 Sincronizar o projeto
-        run: node node_modules/@capacitor/cli/bin/capacitor sync ios
-
-      - name: ☕ Instalar dependências CocoaPods em ios/App
+      - name: 🍎 Criar e sincronizar plataforma iOS
         run: |
-          cd ios/App
-          pod install
+          node node_modules/@capacitor/cli/bin/capacitor add ios
+          node node_modules/@capacitor/cli/bin/capacitor sync ios
 
       - name: 🔨 Compilar o App
         run: |
