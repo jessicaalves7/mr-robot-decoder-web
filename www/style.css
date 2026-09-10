@@ -1,0 +1,81 @@
+/* Reseta as margens padrão do navegador */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0a0a0a; /* Preto quase absoluto */
+    color: #00ff00; /* Verde neon clássico de terminal */
+    font-family: 'Courier New', Courier, monospace; /* Fonte de código */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa 100% da altura da tela */
+}
+
+.terminal-container {
+    border: 1px solid #00ff00;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.15); /* Leve brilho verde em volta */
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-transform: lowercase;
+    border-bottom: 1px dashed #00ff00;
+    padding-bottom: 10px;
+}
+
+p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    background-color: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    outline: none; /* Tira aquela borda azul padrão ao clicar */
+}
+
+input::placeholder {
+    color: #004400; /* Verde bem escuro para o texto de exemplo */
+}
+
+button {
+    width: 100%;
+    background-color: #00ff00;
+    color: black;
+    border: 1px solid #00ff00;
+    padding: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: 0.2s; /* Deixa a mudança de cor suave */
+}
+
+/* Efeito quando passa o mouse por cima do botão */
+button:hover {
+    background-color: black;
+    color: #00ff00;
+}
+
+.output-box {
+    background-color: black;
+    border: 1px solid #004400;
+    padding: 15px;
+    min-height: 55px;
+    word-wrap: break-word; /* Evita que palavras grandes quebrem o layout */
+}
