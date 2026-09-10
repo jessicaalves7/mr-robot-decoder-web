@@ -1,0 +1,41 @@
+name: Gerar iOS
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    name: Compilar para iPhone
+    runs-on: macos-latest
+
+    steps:
+      - name: 📥 Baixar o código
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Preparar o ambiente
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Instalar dependências
+        run: npm install
+
+      - name: 🔄 Sincronizar o Capacitor
+        run: npx cap sync ios
+
+      - name: 🔨 Compilar o App
+        run: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGNING_IDENTITY="" SYMROOT=$(PWD)/build
+
+      - name: 🎁 Criar o arquivo final (.ipa)
+        run: |
+          cd ios/App/build/Release-iphoneos
+          mkdir Payload
+          cp -R App.app Payload/
+          zip -r MrRobotDecoder.ipa Payload/
+
+      - name: 💾 Liberar para Download
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-iOS
+          path: ios/App/build/Release-iphoneos/MrRobotDecoder.ipa
