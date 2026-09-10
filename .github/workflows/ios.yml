@@ -19,6 +19,12 @@ jobs:
       - name: 📦 Instalar dependências Node
         run: npm install
 
+      - name: 🧹 Limpar pasta ios anterior
+        run: rm -rf ios
+
+      - name: 🍎 Adicionar plataforma iOS forçada
+        run: node node_modules/@capacitor/cli/bin/capacitor add ios --force
+
       - name: 🔄 Sincronizar o projeto
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
