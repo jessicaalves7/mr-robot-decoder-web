@@ -22,19 +22,19 @@ jobs:
       - name: 🔄 Sincronizar o projeto
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
-      - name: ☕ Instalar CocoaPods
+      - name: ☕ Instalar CocoaPods na raiz do ios
         run: |
-          cd ios/App
+          cd ios
           pod install
 
       - name: 🔨 Compilar o App
         run: |
-          cd ios/App
+          cd ios
           xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGNING_IDENTITY="" SYMROOT=$(PWD)/build
 
       - name: 🎁 Criar o arquivo final (.ipa)
         run: |
-          cd ios/App/build/Release-iphoneos
+          cd ios/build/Release-iphoneos
           mkdir Payload
           cp -R App.app Payload/
           zip -r MrRobotDecoder.ipa Payload/
@@ -43,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: App-iOS
-          path: ios/App/build/Release-iphoneos/MrRobotDecoder.ipa
+          path: ios/build/Release-iphoneos/MrRobotDecoder.ipa
