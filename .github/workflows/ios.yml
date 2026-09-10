@@ -28,12 +28,12 @@ jobs:
       - name: 🔄 Sincronizar o projeto
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
-      - name: ☕ Instalar dependências CocoaPods
+      - name: ☕ Instalar dependências CocoaPods na raiz do ios
         run: |
-          cd ios/App
+          cd ios
           pod install
 
-      - name: 🔨 Compilar o App na raiz correta do ios
+      - name: 🔨 Compilar o App
         run: |
           cd ios
           xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGNING_IDENTITY="" SYMROOT=$(PWD)/build
