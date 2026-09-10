@@ -22,6 +22,9 @@ jobs:
       - name: 🔄 Sincronizar o Capacitor
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
+      - name: 🔍 Listar arquivos do iOS para conferência
+        run: ls -R ios/
+
       - name: 🔨 Compilar o App
         run: |
           cd ios/App
