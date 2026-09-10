@@ -19,7 +19,13 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm install
 
-      - name: 🔄 Sincronizar o Capacitor
+      - name: 🧹 Limpar pasta ios antiga do repositório
+        run: rm -rf ios
+
+      - name: 🍎 Criar plataforma iOS do zero
+        run: node node_modules/@capacitor/cli/bin/capacitor add ios
+
+      - name: 🔄 Sincronizar o projeto
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
       - name: 🔨 Compilar o App
