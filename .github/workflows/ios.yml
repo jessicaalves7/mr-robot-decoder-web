@@ -19,9 +19,6 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm install
 
-      - name: 🍎 Adicionar plataforma iOS no Mac virtual
-        run: node node_modules/@capacitor/cli/bin/capacitor add ios
-
       - name: 🔄 Sincronizar o Capacitor
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
