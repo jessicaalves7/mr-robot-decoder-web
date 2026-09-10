@@ -19,22 +19,13 @@ jobs:
       - name: 📦 Instalar dependências Node
         run: npm install
 
-      - name: 🧹 Limpar pasta ios antiga
-        run: rm -rf ios
-
-      - name: 🍎 Criar plataforma iOS
-        run: node node_modules/@capacitor/cli/bin/capacitor add ios
-
       - name: 🔄 Sincronizar o projeto
         run: node node_modules/@capacitor/cli/bin/capacitor sync ios
 
-      - name: ☕ Instalar CocoaPods explicitamente
+      - name: ☕ Instalar CocoaPods e gerar Workspace
         run: |
           cd ios/App
-          pod install --repo-update
-
-      - name: 🔍 Listar arquivos gerados para conferência
-        run: ls -la ios/App
+          pod install
 
       - name: 🔨 Compilar o App
         run: |
