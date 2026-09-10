@@ -19,9 +19,6 @@ jobs:
       - name: 📦 Instalar dependências Node
         run: npm install
 
-      - name: 🏗️ Compilar arquivos web
-        run: npm run build
-
       - name: 🧹 Limpar pasta ios anterior
         run: rm -rf ios
 
