@@ -1,6 +1,7 @@
 const DESLOCAMENTO = 3; 
 const ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+// 1. Função Original: Transforma números cifrados de volta em texto
 function decodificarMensagem(mensagemCriptografada) {
   const palavras = mensagemCriptografada.trim().split(/\s+/);
   const mensagemFinal = [];
@@ -16,7 +17,6 @@ function decodificarMensagem(mensagemCriptografada) {
 
       const indiceLetraCifrada = numero - 1; 
       
-      // Aplica o deslocamento de -3 na Cifra de César
       let novoIndice = (indiceLetraCifrada - DESLOCAMENTO) % 26;
       
       if (novoIndice < 0) {
@@ -32,26 +32,68 @@ function decodificarMensagem(mensagemCriptografada) {
   return mensagemFinal.join(" ");
 }
 
+// 2. Função Nova: Transforma texto puro em números cifrados
+function codificarMensagem(mensagemClara) {
+  // Remove espaços extras e transforma tudo em maiúsculas
+  const palavras = mensagemClara.toUpperCase().trim().split(/\s+/);
+  const mensagemFinal = [];
+
+  for (let i = 0; i < palavras.length; i++) {
+    let palavraCodificada = [];
+    
+    for (let j = 0; j < palavras[i].length; j++) {
+      const letra = palavras[i][j];
+      const indiceOriginal = ALFABETO.indexOf(letra);
+
+      // Se o caractere não for uma letra (como vírgulas ou números), apenas ignora
+      if (indiceOriginal === -1) continue;
+
+      // Aplica o deslocamento de +3 na Cifra de César
+      let novoIndice = (indiceOriginal + DESLOCAMENTO) % 26;
+      
+      // Converte o índice de volta para o formato de número (1 a 26)
+      const numeroCifrado = novoIndice + 1;
+      
+      palavraCodificada.push(numeroCifrado);
+    }
+    
+    // Junta os números da palavra com pontos
+    if (palavraCodificada.length > 0) {
+      mensagemFinal.push(palavraCodificada.join("."));
+    }
+  }
+
+  // Junta as palavras com um espaço em branco
+  return mensagemFinal.join(" ");
+}
+
+
 // --- INTEGRAÇÃO COM O HTML (DOM) ---
 
-// 1. Capturamos os elementos da tela pelos IDs que definimos no HTML
-const botao = document.getElementById('btnDecodificar');
+const botaoDecodificar = document.getElementById('btnDecodificar');
+const botaoCodificar = document.getElementById('btnCodificar'); // Novo botão
 const input = document.getElementById('inputCodigo');
 const displayResultado = document.getElementById('resultado');
 
-// 2. Criamos um "ouvinte de eventos" para agir quando o botão for clicado
-botao.addEventListener('click', () => {
-  // Pega o que foi digitado no input
-  const codigoDigitado = input.value;
+botaoDecodificar.addEventListener('click', () => {
+  const textoDigitado = input.value;
   
-  // Verifica se o campo não está vazio
-  if(codigoDigitado.trim() !== "") {
-    // Chama a nossa função para traduzir o código
-    const mensagemTraduzida = decodificarMensagem(codigoDigitado);
-    // Joga o resultado na tela do HTML
+  if(textoDigitado.trim() !== "") {
+    const mensagemTraduzida = decodificarMensagem(textoDigitado);
     displayResultado.innerText = "> " + mensagemTraduzida;
   } else {
-    // Mensagem de erro se ele clicar sem digitar nada
+    displayResultado.innerText = "> erro: insira os dados";
+  }
+});
+
+// Novo ouvinte de eventos para o botão de codificar
+botaoCodificar.addEventListener('click', () => {
+  const textoDigitado = input.value;
+  
+  if(textoDigitado.trim() !== "") {
+    const mensagemCifrada = codificarMensagem(textoDigitado);
+    displayResultado.innerText = "> " + mensagemCifrada;
+  } else {
     displayResultado.innerText = "> erro: insira os dados";
   }
 });
