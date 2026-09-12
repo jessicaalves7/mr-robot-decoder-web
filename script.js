@@ -71,29 +71,93 @@ function codificarMensagem(mensagemClara) {
 // --- INTEGRAÇÃO COM O HTML (DOM) ---
 
 const botaoDecodificar = document.getElementById('btnDecodificar');
-const botaoCodificar = document.getElementById('btnCodificar'); // Novo botão
+const botaoCodificar = document.getElementById('btnCodificar'); 
+const btnCopiar = document.getElementById('btnCopiar');
+const avisoDestruicao = document.getElementById('avisoDestruicao');
 const input = document.getElementById('inputCodigo');
 const displayResultado = document.getElementById('resultado');
 
+// Variáveis para controlar os tempos e cancelar caso o usuário clique de novo rápido
+let timerDigitacao;
+let timerDestruicao;
+
+// Função de Efeito Máquina de Escrever (Terminal Hacker)
+function efeitoDigitacao(texto, callback) {
+  // Limpa animações anteriores
+  clearInterval(timerDigitacao);
+  clearInterval(timerDestruicao);
+  
+  displayResultado.innerText = "> ";
+  avisoDestruicao.style.display = "none";
+  btnCopiar.style.display = "none";
+  
+  let i = 0;
+  
+  timerDigitacao = setInterval(() => {
+    displayResultado.innerText += texto.charAt(i);
+    i++;
+    
+    // Quando terminar de digitar tudo
+    if (i >= texto.length) {
+      clearInterval(timerDigitacao);
+      if (callback) callback();
+    }
+  }, 50); // Velocidade da digitação (50ms por letra)
+}
+
+// Função de Autodestruição (10 segundos)
+function iniciarAutodestruicao() {
+  btnCopiar.style.display = "inline-block"; // Mostra o botão de copiar
+  avisoDestruicao.style.display = "block";
+  
+  let tempoRestante = 10;
+  avisoDestruicao.innerText = `[ATENÇÃO: Estes dados se autodestruirão em ${tempoRestante}s]`;
+  
+  timerDestruicao = setInterval(() => {
+    tempoRestante--;
+    avisoDestruicao.innerText = `[ATENÇÃO: Estes dados se autodestruirão em ${tempoRestante}s]`;
+    
+    // Momento da destruição
+    if (tempoRestante <= 0) {
+      clearInterval(timerDestruicao);
+      displayResultado.innerText = "> [ DADOS APAGADOS PELO SISTEMA ]";
+      avisoDestruicao.style.display = "none";
+      btnCopiar.style.display = "none";
+      input.value = ""; // Limpa o que a pessoa digitou também
+    }
+  }, 1000);
+}
+
+// Botão de Copiar
+btnCopiar.addEventListener('click', () => {
+  // Pega o texto do resultado tirando o "> " do começo
+  const textoParaCopiar = displayResultado.innerText.substring(2);
+  
+  navigator.clipboard.writeText(textoParaCopiar).then(() => {
+    btnCopiar.innerText = "Copiado!";
+    setTimeout(() => {
+      btnCopiar.innerText = "Copiar Código";
+    }, 2000);
+  });
+});
+
+// Ouvintes de clique
 botaoDecodificar.addEventListener('click', () => {
   const textoDigitado = input.value;
-  
   if(textoDigitado.trim() !== "") {
     const mensagemTraduzida = decodificarMensagem(textoDigitado);
-    displayResultado.innerText = "> " + mensagemTraduzida;
+    efeitoDigitacao(mensagemTraduzida, iniciarAutodestruicao);
   } else {
-    displayResultado.innerText = "> erro: insira os dados";
+    efeitoDigitacao("erro: insira os dados", null);
   }
 });
 
-// Novo ouvinte de eventos para o botão de codificar
 botaoCodificar.addEventListener('click', () => {
   const textoDigitado = input.value;
-  
   if(textoDigitado.trim() !== "") {
     const mensagemCifrada = codificarMensagem(textoDigitado);
-    displayResultado.innerText = "> " + mensagemCifrada;
+    efeitoDigitacao(mensagemCifrada, iniciarAutodestruicao);
   } else {
-    displayResultado.innerText = "> erro: insira os dados";
+    efeitoDigitacao("erro: insira os dados", null);
   }
-});
+}); 

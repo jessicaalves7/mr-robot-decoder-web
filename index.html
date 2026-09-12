@@ -13,7 +13,7 @@
         <p>Insira os dados:</p>
         
         <!-- Campo de digitação -->
-        <input type="text" id="inputCodigo" placeholder="Ex: 24.16     6.11.8.12.21.18" autocomplete="off">
+        <input type="text" id="inputCodigo" placeholder="Ex: 24.16    6.11.8.12.21.18" autocomplete="off">
         
         <!-- Botão de ação -->
         <button id="btnCodificar">Codificar</button>
@@ -22,6 +22,9 @@
         <!-- Tela de resultado -->
         <div class="output-box">
             <span id="resultado">> _</span>
+            <!-- Novos elementos do modo imersivo escondidos por padrão -->
+            <p id="avisoDestruicao" style="color: red; font-size: 0.8em; display: none; margin-top: 5px;"></p>
+            <button id="btnCopiar" style="display: none; margin-top: 10px; cursor: pointer;">Copiar Código</button>
         </div>
     </div>
 
