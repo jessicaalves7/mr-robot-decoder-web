@@ -130,8 +130,8 @@ function iniciarAutodestruicao() {
 
 // Botão de Copiar
 btnCopiar.addEventListener('click', () => {
-  // Pega o texto do resultado tirando o "> " do começo
-  const textoParaCopiar = displayResultado.innerText.substring(2);
+  // Remove o ">" e qualquer espaço inicial de forma segura
+  const textoParaCopiar = displayResultado.innerText.replace(/^>\s*/, '');
   
   navigator.clipboard.writeText(textoParaCopiar).then(() => {
     btnCopiar.innerText = "Copiado!";
